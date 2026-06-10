@@ -27,6 +27,7 @@ After authenticating, the attacker ran a single chained shell command which incl
 
 
 ![Cowrie playlog of the captured session](images/cowrie-playlog.png)
+*Cowrie playlog of the captured session*
 
 ```sh
 echo W >/tmp/.t 2>&1 && echo OK || echo FAIL          # /tmp writability probe
@@ -83,8 +84,10 @@ Looking into the IP address further we can see it's been used to deploy malware 
 | AbuseIPDB | Abuse confidence **70%**; reported **14 times** from 13  sources; first reported 2026-06-01; usage type Data Center / Web Hosting / Transit. |
 
 ![Shodan host page for 31.56.209.220](images/shodan-31-56-209-220.png)
+*Shodan results for the distribution host*
 
 ![AbuseIPDB report for 31.56.209.220](images/abuseipdb-31-56-209-220.png)
+*AbuseIPDB report for the distribution host*
 
 Shodan attributes the IP to the UK under Hydra communications but AbuseIPDB reports Netherlands under Swissnet LLC. Both geolocations conflict and single source IP locating is fairly unreliable. So there is no location attributed.
 
@@ -108,8 +111,10 @@ The sample was executed and performed a connectivity check firstly on an Ubuntu 
 All network behaviour below was captured before the failure.
 
 ![Sandbox network trace](images/sandbox-network-trace.png)
+*Network activity captured during sandbox detonation*
 
 ![Boot-level crash fd0 error](images/sandbox-crash-fd0.png)
+*Boot-level fd0 error that terminated the sandbox run*
 
 Observed network sequence:
 
@@ -132,6 +137,7 @@ After resolving to the C2, the sandbox failed with the error `print_req_error: I
 I then spun up a Debian machine with the MIPS architecture, and ran the MIPS fetch of the payload directly via command line. 
 
 ![Debian MIPS detonation](images/debian-detonation.png)
+*Successful MIPS payload execution on Debian, printing the check string*
 
 This detonation succeeded and left `it was never about the taste` - there are no exact match for that phrase on other Mirai reports. But, Mirai is known for printing "check strings" as a form of displaying a successful-execution or a check-in marker. Mirai fork authors tend to routinely swap these prints out for other operator memes and jokes, some forks contain Rick Roll references and some russian samples containing `я люблю куриные наггетсы` - which translates to "I love chicken nuggets".
 
@@ -144,8 +150,10 @@ A split second after I grabbed that screenshot, the bot tore down its controllin
 **Resolved C2:**
 
 ![VirusTotal domain relations](images/vt-domain-relations.png)
+*VirusTotal relations tab for the C2 domain, showing siblings and communicating files*
 
 ![VirusTotal graph](images/vt-graph.png)
+*VirusTotal graph for the C2 cluster*
 
 | Field | Value |
 |---|---|
@@ -189,6 +197,7 @@ Note: more files may be added after this research was completed.
 **Family: Mirai.**
 
 ![VirusTotal detection page for telnet.sh](images/vt-telnet-sh.png)
+*VirusTotal detection results for telnet.sh*
 
 VirusTotal classifies the dropper `c038cb...c81b114` with the threat label `downloader.gen2/mirai` (family labels: `gen2`, `mirai`, `bash`). Detection ratio is 11/56 at the time of research.
 
@@ -220,7 +229,7 @@ Considering the VT labels, the observed behaviour (shotgun payload, telnet-tagge
 
 The detections below target the behavioural chain, rather than the binary itself. The raw IoT ELF is highly unlikely to appear in a Microsoft/Windows estate as ELF relies on Linux system calls. But, the download > permission change > execution pattern would surface on a Linux server running EDR.
 
-### 9.1 KQL (Microsoft Defender for Endpoint — Linux)
+### 9.1 KQL (Microsoft Defender for Endpoint, Linux)
 
 ```kql
 // Download -> chmod -> execute from a writable path on Linux endpoints
@@ -242,7 +251,7 @@ DeviceProcessEvents
 
 ## 10. Indicators of Compromise
 
-> All indicators defanged. Attacker IOCs only — no honeypot infrastructure is published.
+> All indicators defanged. Attacker IOCs only, no honeypot infrastructure is published.
 
 | Type | Indicator | Description |
 |---|---|---|
@@ -255,7 +264,7 @@ DeviceProcessEvents
 | C2 connection | `45.156.87[.]243:42061` | Outbound TCP observed during detonation |
 | Sibling IP | `45.153.34[.]26` | A record for `hackattackkaboom.botlesscucks[.]st` |
 | C2 cluster | `*.botlesscucks[.]st` (`youareall`, `stoplooking`, `hackattackkaboom`, `musika`) | Operator-controlled subdomain cluster |
-| Dropper hash | `c038cb040eb402241220baaf169bcb208181e9bbd87f502b7d0cfc3c9c81b114` | `telnet.sh` — confirmed Mirai-family downloader |
+| Dropper hash | `c038cb040eb402241220baaf169bcb208181e9bbd87f502b7d0cfc3c9c81b114` | `telnet.sh`, confirmed Mirai-family downloader |
 | Write-probe hash | `7062c0dcd502ab26e450e2881a89cae3def227f2ea20801898ad088e10db071` | `/tmp/.t` writability-test artifact |
 | Related samples | 9 × ELF communicating with `botlesscucks[.]st` (see §6) | Pivoted via VT Communicating Files |
 

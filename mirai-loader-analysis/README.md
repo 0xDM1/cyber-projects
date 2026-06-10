@@ -303,4 +303,4 @@ And the list of communicating file IOCs from earlier:
 
 ---
 
-_Self-directed research conducted on an isolated, internet-facing honeypot for portfolio and skills-development purposes. No third-party systems were accessed. Live malware handling was performed in a suitable sandbox environment._
+_Self directed research conducted on an isolated, internet-facing honeypot for portfolio and skills-development purposes. No third-party systems were accessed. Live malware handling was performed in a suitable sandbox environment._

@@ -1,6 +1,6 @@
 # Chasing Mirai: Honeypot Capture, Detonation & C2 Pivot
 
-> **TLP:CLEAR** · Self-directed honeypot research · Analyst: `Darren McEwan` · Date: June 2026
+> **TLP:CLEAR** · Self directed honeypot research · Analyst: `Darren McEwan` · Date: June 2026
 >
 
 ---
@@ -112,6 +112,8 @@ All network behaviour below was captured before the failure.
 
 ![Sandbox network trace](images/sandbox-network-trace.png)
 <sub>Network activity captured during sandbox detonation</sub>
+
+<br>
 
 ![Boot-level crash fd0 error](images/sandbox-crash-fd0.png)
 <sub>Boot-level fd0 error that terminated the sandbox run</sub>
